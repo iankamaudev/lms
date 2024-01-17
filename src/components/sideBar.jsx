@@ -19,6 +19,7 @@ function SideBar() {
   const [isTyping, setIsTyping] = useState(false);
   const [lastMessage, setLastMessage] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
+  const [chatHistory, setChatHistory] = useState([]);
 
   const getCurrentTime = () => {
     const now = new Date();
@@ -33,9 +34,32 @@ function SideBar() {
     setLastMessage("Hey, how are you?");
   }, [isTyping]);
 
-  function handleUserClick(userName) {
-    setSelectedUser(userName);
-    // You can perform additional actions when a user is clicked, such as loading their chat history, etc.
+  const fetchChatHistory = async (userName) => {
+    // Simulate fetching data from an API or database
+    // Replace this with your actual data fetching logic
+    return new Promise((resolve) => {
+      // Simulating a delay for fetching data
+      setTimeout(() => {
+        // Placeholder data, replace with actual chat history
+        const dummyChatHistory = [
+          { sender: 'You', message: 'Hey there!', timestamp: new Date() },
+          { sender: userName, message: 'Hello!', timestamp: new Date() },
+          // Add more messages as needed
+        ];
+
+        resolve(dummyChatHistory);
+      }, 1000); // Simulated delay of 1 second
+    });
+  };
+
+  const handleUserClick = async (userName) => {
+    try {
+      const userChatHistory = await fetchChatHistory(userName);
+      setSelectedUser(userName);
+      setChatHistory(userChatHistory);
+    } catch (error) {
+      console.error('Error fetching chat history:', error.message);
+    }
   };
 
   return (
@@ -55,7 +79,7 @@ function SideBar() {
           </div>
           <div className="chat-time d-flex flex-column align-self-start mt-3 ">
             <p className="fs-6 mb-2">{getCurrentTime()}</p>
-            <span className="message-pill align-item-start">1</span>
+            <span className="message-pill align-item-start">{chatHistory.length}</span>
           </div>
         </div>
       ))}

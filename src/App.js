@@ -4,8 +4,8 @@ import Registration from './pages/Registration';
 function App() {
   return (
     <div className="app">
-      { <Chat /> }
-      {/*<Registration />*/}
+      {/*<Chat />*/}
+      {<Registration/>}
     </div>
   );
 }

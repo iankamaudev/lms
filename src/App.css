@@ -71,22 +71,28 @@
 
 /* chat box section */
 
-.chat-box{
+.chat-box {
   height: 100%;
   width: 70%;
   -ms-overflow-style: none;
   scrollbar-width: none;
   overflow-y: auto;
   overflow-x: hidden;
-  border-right: .5px solid rgba(51,51,51,.2);
+  border-right: .5px solid rgba(51, 51, 51, .2);
   background-color: var(--primary-lighter-color);
+  position: relative; /* Added position: relative; */
 
-
+  /* Added styles to properly position the chat-input section */
+  display: flex;
+  flex-direction: column;
 }
+
 .chat-box::-webkit-scrollbar {
   display: none;
 }
 .chat-header{
+  display: flex;
+  flex-direction: column;
   box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 .chat-header-user{
@@ -111,7 +117,7 @@
   vertical-align: bottom;
 }
 .chat-input{
-  bottom: 30px;
+  bottom: 0;
   right: 20px;
   width: 100%;
   position: fixed;
