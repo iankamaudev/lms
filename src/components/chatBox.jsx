@@ -5,7 +5,6 @@ import user3 from "../assets/images/img3.jpg";
 import user4 from "../assets/images/img4.jpg";
 import user5 from "../assets/images/img5.jpg";
 import send from "../assets/images/send.png";
-import SideBar from "./sideBar";
 
 const users = [
   { id: 1, name: "John Doe", profileImage: user1 },
@@ -13,20 +12,19 @@ const users = [
   { id: 3, name: "Michael Lawson", profileImage: user3 },
   { id: 4, name: "Melvin Mbae", profileImage: user4 },
   { id: 5, name: "Ted Lasso", profileImage: user5 }
-  // ... add more users as needed
 ];
 
-function ChatBox() {
+function ChatBox({ selectedUser }) {
   const [message, setMessage] = useState("");
   const [allMessages, setAllMessages] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(users[1]); // Default user
   const messagesContainerRef = useRef(null);
+
   const getCurrentTime = () => {
     const now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes();
     return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${hours >= 12 ? "pm" : "am"}`;
-  }
+  };
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -37,17 +35,22 @@ function ChatBox() {
 
   function handleMessageChange(e) {
     e.preventDefault();
-    setMessage((val) => (val = e.target.value));
+    setMessage(e.target.value);
   }
+
   function handleSendMessage(e) {
     e.preventDefault();
+    if (!message.trim()) {
+      return;
+    }
 
     const currentTime = getCurrentTime();
-    const newMessage = { sender: "You", message: message, timestamp: currentTime };
-    
+    const newMessage = { sender: "You", message, timestamp: currentTime };
+
     setAllMessages((prev) => [...prev, newMessage]);
     setMessage("");
   }
+
   const handleFileUpload = (files) => {
     const reader = new FileReader();
 
@@ -70,10 +73,10 @@ function ChatBox() {
         <header className="py-1 chat-header navbar nav sticky-top">
           <div className="chat-header-user d-flex justify-content-start gap-3 px-4 align-items-center flex-nowrap">
             <div className="profile">
-              <img className="profile-img" src={selectedUser.profileImage} alt="profile" />
+              <img className="profile-img" src={selectedUser?.profileImage} alt="profile" />
             </div>
             <div className="chat-preview d-flex flex-column b-2 justify-content-center align-items-start ">
-              <h6 className="text-start fw-bold">{selectedUser.name}</h6>
+              <h6 className="text-start fw-bold">{selectedUser?.name}</h6>
               <div className="d-flex align-items-center gap-1">
                 <div className="dot"></div>
                 <p className="mb-0 new-message">Online</p>
@@ -82,19 +85,23 @@ function ChatBox() {
           </div>
         </header>
         <section className="messages-container px-2 position-relative w-100 mb-5" ref={messagesContainerRef}>
-          <div className="messages-inner d-flex flex-column justify-content-end align-items-center w-100 h-auto">
-          {allMessages &&
+          <div className="messages-inner d-flex flex-column justify-content-start align-items-start w-100 h-auto">
+            {allMessages &&
               allMessages.map((msg, index) => (
-                <div key={index} className={msg.sender === "You" ? "sent-message" : "received-message px-2 py-3 my-3 ml-4"}>
-                  <p className="p-0 m-0">{msg.message}</p>
-                  <span className="message-time">{msg.timestamp}</span>
+                <div
+                  id="income-msg"
+                  key={index}
+                  className={msg.sender === "You" ? "sent-message" : "received-message px-2 py-3 my-5 ml-4 mb-2"}
+                >
+                  <p className="p-1 mb-1">{msg.message}</p>
+                  <span id="time_space" className="message-time">
+                    {msg.timestamp}
+                  </span>
                 </div>
               ))}
           </div>
-          <form
-            className="chat-input position-relative mx-4 w-100 py-2"
-            onSubmit={handleSendMessage}
-          >
+
+          <form id="form-textside" className="chat-input position-relative mx-4 w-50 py-2" onSubmit={handleSendMessage}>
             <div className="inner-input  d-flex flex-row justify-content-end gap-2 m-0 ">
               <textarea
                 value={message}

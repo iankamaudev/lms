@@ -70,10 +70,16 @@
 }
 
 /* chat box section */
-
+#income-msg{
+  margin-top: 20px;
+}
+#time_space{
+  margin-left: 20px;
+  color: rgb(77, 74, 74);
+}
 .chat-box {
   height: 100%;
-  width: 70%;
+  width: 400%;
   -ms-overflow-style: none;
   scrollbar-width: none;
   overflow-y: auto;
@@ -116,9 +122,11 @@
   background-color: var(--primary-lighter-color);
   vertical-align: bottom;
 }
+
+
 .chat-input{
   bottom: 0;
-  right: 20px;
+ right: 20px;
   width: 100%;
   position: fixed;
   box-sizing: content-box;
